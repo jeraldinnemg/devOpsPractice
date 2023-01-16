@@ -1,3 +1,5 @@
+﻿
+
 namespace RoundTheCode.AzureTestProject.Shared
 {
     public class MyService : IMyService
