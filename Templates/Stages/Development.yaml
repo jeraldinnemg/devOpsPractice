@@ -1,0 +1,7 @@
+stages:
+- stage: Development
+  displayName: DEV
+  jobs:
+  - template: ../Jobs/DeployPreview.yaml
+  variables:
+  - template: ../Variables/Development.yaml

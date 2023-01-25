@@ -1,0 +1,7 @@
+variables:
+  Environment: 'Development'
+  Location: 'East US'
+  LocationSecondary: 'West US'
+  azureSubscription: 'Azure Subscription Academy'
+  appType: 'Web App on Windows'
+  appName: 'webapp-JeraldinneMolleda'

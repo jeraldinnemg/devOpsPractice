@@ -361,7 +361,7 @@ if ($Action -eq "create") {
       }
     }
 
-    if ($AppInsights) {
+    if ($ApplicationInsights) {
       if ($AppInsightsName) {
         if (ValidateResourceName -ResourceName $AppInsightsName) {
           Write-LogCustom -Message "The name $AppInsightsName respects the EY naming convention"

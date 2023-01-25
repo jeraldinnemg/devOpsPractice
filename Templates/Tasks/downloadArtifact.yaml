@@ -1,0 +1,22 @@
+steps:
+- task: DownloadBuildArtifacts@1
+  inputs:
+    buildType: 'specific'
+    project: CT Engineering School 
+    pipeline: CI-pipeline-JeraldinneMolleda
+    specificBuildWithTriggering: false 
+    buildVersionToDownload: 'latest' 
+    allowPartiallySucceededBuilds: false 
+    branchName: 'refs/heads/feature/jeraldinne' 
+    buildId: '368'
+    #tags: # string. Optional. Use when buildType == specific && buildVersionToDownload != specific. Build Tags. 
+    downloadType: 'single'
+    artifactName: 'drop'
+    downloadPath: '$(System.DefaultWorkingDirectory)'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure Subscription Academy'
+    appType: 'webApp'
+    appName: 'webapp-JeraldinneMolleda'
+    package: '$(System.DefaultWorkingDirectory)/drop'
+    deploymentMethod: 'auto'

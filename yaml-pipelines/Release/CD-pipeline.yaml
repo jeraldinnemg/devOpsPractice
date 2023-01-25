@@ -9,9 +9,9 @@ pool:
 # Resources #
 resources:
   pipelines: 
-  - pipeline: CI-pipeline-JeraldinneMolleda
-    project: CT Engineering School
-    source: CI-pipeline-JeraldinneMolleda
+  - pipeline: Swagger-CI-JeraldinneMolleda
+    project: Swagger-FinalAssessment
+    source: Swagger-CI-JeraldinneMolleda
 
 
 # Stages #

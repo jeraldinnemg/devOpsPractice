@@ -1,0 +1,4 @@
+variables:
+  azureSubscription: 'Azure Subscription Academy'
+  appType: 'Web App on Windows'
+  appName: 'webapp-JeraldinneMolleda'
