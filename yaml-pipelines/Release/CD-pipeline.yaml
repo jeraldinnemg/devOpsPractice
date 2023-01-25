@@ -1,0 +1,22 @@
+# Trigger #
+trigger: 
+- none
+
+# Pool #
+pool: 
+  vmImage: windows-2019
+
+# Resources #
+resources:
+  pipelines: 
+  - pipeline: CI-pipeline-JeraldinneMolleda
+    project: CT Engineering School
+    source: CI-pipeline-JeraldinneMolleda
+
+
+# Stages #
+stages: 
+- template: templates/Stages/Development.yaml
+- template: templates/Stages/QA.yaml
+- template: templates/Stages/UAT.yaml
+- template: templates/Stages/Production.yaml

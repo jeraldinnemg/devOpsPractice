@@ -1,0 +1,68 @@
+01-24-23 22:29:31: USEDCTJMASP71
+01-24-23 22:33:12: The name  is not available in Azure
+01-24-23 22:33:21: The name  is not available in Azure
+01-24-23 22:33:40: The name  is not available in Azure
+01-24-23 22:33:50: The name  is not available in Azure
+01-24-23 22:33:55: The name  is not available in Azure
+01-24-23 22:34:12: The name  is not available in Azure
+01-24-23 22:38:00: New resource name USEDCTPJMRSG92 created successfully
+01-24-23 22:38:39: New resource name USEDCTPJMASP87 created successfully
+01-24-23 22:38:50: App Service Plan USEDCTPJMASP87 created successfully
+01-24-23 22:48:54: New resource name USEDCTPJMRSG62 created successfully
+01-24-23 23:43:38: New resource name USEDCTPJMASP65 created successfully
+01-24-23 23:43:47: App Service Plan USEDCTPJMASP65 created successfully
+01-25-23 00:08:04: New resource name  created successfully
+01-25-23 00:08:22: New resource name  created successfully
+01-25-23 00:11:58: New resource name USEDCTPJMRSG61 created successfully
+01-25-23 00:12:16: New resource name USEDCTPJMASP56 created successfully
+01-25-23 00:12:24: App Service Plan USEDCTPJMASP56 created successfully
+01-25-23 00:51:57: New resource name USEDCTPJMRSG31 created successfully
+01-25-23 00:51:57: Failed to create Resource Group 
+01-25-23 00:52:15: New resource name  created successfully
+01-25-23 00:52:16: New resource name  created successfully
+01-25-23 00:52:16: New resource name  created successfully
+01-25-23 00:52:17: New resource name  created successfully
+01-25-23 00:54:54: New resource name USEDCTPJMRSG03 created successfully
+01-25-23 00:54:57: Failed to create Resource Group 
+01-25-23 00:55:37: New resource name UWUDCTPJMASP40 created successfully
+01-25-23 00:55:46: App Service Plan UWUDCTPJMASP40 created successfully
+01-25-23 00:56:27: New resource name UWUDCTPJMWAP62 created successfully
+01-25-23 00:56:32: App Service Plan UWUDCTPJMWAP62 created successfully
+01-25-23 00:56:59: New resource name USEDCTPJMAIS18 created successfully
+01-25-23 00:56:59: Failed to create App Service Plan USEDCTPJMAIS18
+01-25-23 00:57:52: New resource name USEDCTPJMAIS68 created successfully
+01-25-23 00:58:00: Failed to create App Service Plan USEDCTPJMAIS18
+01-25-23 01:05:27: New resource group USEDCTPJMRSG82 created successfully
+01-25-23 01:05:31: Failed to create Resource Group 
+01-25-23 01:05:51: New app service plan UWUDCTPJMASP73 created successfully
+01-25-23 01:06:00: App Service Plan UWUDCTPJMASP73 created successfully
+01-25-23 01:06:14: New app service name UWUDCTPJMWAP63 created successfully
+01-25-23 01:06:17: App Service Plan UWUDCTPJMWAP63 created successfully
+01-25-23 01:06:38: New app service name USEDCTPJMAIS74 created successfully
+01-25-23 01:06:38: Failed to create App Service USEDCTPJMAIS74
+01-25-23 01:08:34: New resource group USEDCTPJMRSG14 created successfully
+01-25-23 01:08:37: Failed to create Resource Group 
+01-25-23 01:08:55: New app service plan UWUDCTPJMASP50 created successfully
+01-25-23 01:09:04: App Service Plan UWUDCTPJMASP50 created successfully
+01-25-23 01:09:14: New app service name UWUDCTPJMWAP15 created successfully
+01-25-23 01:09:20: App Service Plan UWUDCTPJMWAP15 created successfully
+01-25-23 01:09:35: New app service name USEDCTPJMAIS87 created successfully
+01-25-23 01:10:21: App Service USEDCTPJMAIS87 created successfully
+01-25-23 01:44:40: New resource group USEDCTPJMRSG09 created successfully
+01-25-23 01:44:43: Failed to create Resource Group USEDCTPJMRSG09
+01-25-23 01:46:17: New resource group USEDCTPJMRSG87 created successfully
+01-25-23 01:46:20: Failed to create Resource Group USEDCTPJMRSG87
+01-25-23 01:46:39: New app service plan UWUDCTPJMASP35 created successfully
+01-25-23 01:46:48: App Service Plan UWUDCTPJMASP35 created successfully
+01-25-23 01:46:59: New app service name UWUDCTPJMWAP23 created successfully
+01-25-23 01:47:35: App Service UWUDCTPJMWAP23 created successfully
+01-25-23 01:48:15: New application insights DCTPJMAIS34 created successfully
+01-25-23 01:48:31: Application Insights DCTPJMAIS34 created successfully
+01-25-23 12:12:12: New resource group USEDCTPJMRSG35 created successfully
+01-25-23 12:12:15: Failed to create Resource Group USEDCTPJMRSG35
+01-25-23 12:12:25: New app service plan UWUDCTPJMASP62 created successfully
+01-25-23 12:12:33: App Service Plan UWUDCTPJMASP62 created successfully
+01-25-23 12:12:41: New app service name UWUDCTPJMWAP74 created successfully
+01-25-23 12:13:13: App Service UWUDCTPJMWAP74 created successfully
+01-25-23 12:13:32: New application insights USEDCTPJMAIS62 created successfully
+01-25-23 12:13:42: Application Insights USEDCTPJMAIS62 created successfully
