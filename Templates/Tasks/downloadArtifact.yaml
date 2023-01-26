@@ -2,7 +2,7 @@ steps:
 - task: DownloadBuildArtifacts@1
   inputs:
     buildType: 'specific'
-    project: Swagger-FinalAssessment
+    project: CT Engineering School
     pipeline: Swagger-CI-JeraldinneMolleda
     specificBuildWithTriggering: false 
     buildVersionToDownload: 'latest' 

@@ -16,7 +16,6 @@ param(
 function CreateAllResources {
 
   param(
-
   $locationPrimary = "East US",
   $locationSecondary = "West US"
   )
@@ -452,4 +451,3 @@ elseif ($Action -eq "delete") {
     Write-LogCustom -Message "You haven't created a resource using this script yet. If you want to delete an existing Resource Group type parameter -ResourceGroupName, or if you want to delete ALL Resources Groups type parameter -All"
   }
 }
-
