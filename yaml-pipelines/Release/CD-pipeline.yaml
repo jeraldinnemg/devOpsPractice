@@ -16,7 +16,7 @@ resources:
 
 # Stages #
 stages: 
-- template: Templates/Stages/Development.yaml
-- template: Templates/Stages/QA.yaml
-- template: Templates/Stages/UAT.yaml
-- template: Templates/Stages/Production.yaml
+- template: ../Templates/Stages/Development.yaml
+- template: ../Templates/Stages/QA.yaml
+- template: ../Templates/Stages/UAT.yaml
+- template: ../Templates/Stages/Production.yaml
