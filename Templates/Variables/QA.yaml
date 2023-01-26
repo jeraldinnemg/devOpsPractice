@@ -1,5 +1,5 @@
 variables:
-  Environment: 'Development'
+  Environment: 'QA'
   azureSubscription: 'Azure Subscription Academy'
   appType: 'Web App on Windows'
   appName: 'UWUDCTPJMWAP76'
