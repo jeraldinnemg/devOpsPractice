@@ -18,5 +18,5 @@ steps:
     azureSubscription: 'Azure Subscription Academy'
     appType: 'webApp'
     appName: 'UWUDCTPJMWAP76'
-    package: '$(System.DefaultWorkingDirectory)/AzureTestProject'
-    deploymentMethod: 'auto'
+    package: '$(System.DefaultWorkingDirectory)/RoundTheCode.AzureTestProject.zip'
+    deploymentMethod: zipDeploy
