@@ -3,6 +3,6 @@ stages:
   displayName: QA
   dependsOn: Development
   jobs:
-  - template: ../Jobs/DeployPreview.yaml
+  - template: ../../Templates/Jobs/DeployPreview.yaml
   variables:
-  - template: ../Variables/QA.yaml
+  - template: ../../Templates/Variables/QA.yaml

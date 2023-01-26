@@ -2,4 +2,4 @@ jobs:
 - job: DeployWebApp
   displayName: DeployWebApp
   steps:
-  - template: ../../Tasks/Resources/downloadArtifact.yaml
+  - template: ../../Templates/Tasks/Resources/downloadArtifact.yaml

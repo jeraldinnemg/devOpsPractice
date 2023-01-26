@@ -3,6 +3,6 @@ stages:
   displayName: PROD
   dependsOn: UAT
   jobs:
-  - template: ../Jobs/DeployPreview.yaml
+  - template: ../../Templates/Jobs/DeployPreview.yaml
   variables:
-  - template: ../Variables/Production.yaml
+  - template: ../../Templates/Variables/Production.yaml
