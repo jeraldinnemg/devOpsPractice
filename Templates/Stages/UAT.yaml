@@ -1,0 +1,8 @@
+stages:
+- stage: UAT
+  displayName: UAT
+  dependsOn: QA
+  jobs:
+  - template: ../Jobs/DeployPreview.yaml
+  variables:
+  - template: ../Variables/UAT.yaml

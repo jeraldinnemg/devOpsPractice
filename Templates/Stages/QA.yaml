@@ -1,4 +1,8 @@
-variables:
-  azureSubscription: 'Azure Subscription Academy'
-  appType: 'Web App on Windows'
-  appName: 'webapp-JeraldinneMolleda'
+stages:
+- stage: QA
+  displayName: QA
+  dependsOn: Development
+  jobs:
+  - template: ../Jobs/DeployPreview.yaml
+  variables:
+  - template: ../Variables/QA.yaml
