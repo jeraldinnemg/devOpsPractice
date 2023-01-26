@@ -17,7 +17,8 @@ function CreateAllResources {
 
   param(
 
-  $location = "East US"
+  $locationPrimary = "East US",
+  $locationSecondary = "West US"
   )
   $path = Join-Path -Path $PSScriptRoot -ChildPath '..\scripts\generateName.ps1'
   Import-Module $path
@@ -35,7 +36,7 @@ function CreateAllResources {
   Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
             
   #Deploy the RSG in Azure
-  New-AzResourceGroup -Name $ResourceGroupName -Location $location
+  New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
             
 
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
@@ -59,7 +60,7 @@ function CreateAllResources {
   New-AzAppServicePlan  `
     -Name $AppServicePlanName `
     -ResourceGroupName $ResourceGroupName `
-    -Location $location `
+    -Location $locationSecondary `
     -Tier "F1"
   
     #Validate the name
@@ -85,7 +86,7 @@ function CreateAllResources {
     -Name $AppServiceName `
     -ResourceGroupName $ResourceGroupName `
     -AppServicePlan $appServicePlanName   `
-    -Location $location `
+    -Location $locationSecondary `
 
   #Validate the name
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
@@ -109,14 +110,18 @@ function CreateAllResources {
  New-AzApplicationInsights  `
    -Name $AppInsightsName `
    -ResourceGroupName $ResourceGroupName `
-   -Location $location `
+   -Location $locationPrimary `
 
    # Get the App Service and Application Insights resources
    $webApp = Get-AzWebApp -Name $AppServiceName -ResourceGroupName $ResourceGroupName
-   $appInsights = Get-AzApplicationInsights -Name $AppInsightsName -ResourceGroupName $ResourceGroupName
+   $AppInsights = Get-AzApplicationInsights -Name $AppInsightsName -ResourceGroupName $ResourceGroupName
    
    # Associate the Application Insights instance to the App Service
-   Set-AzWebApp -WebApp $webApp -ApplicationInsights $appInsights
+   $AppInsightsId = (Get-AzResource -Name $AppInsightsName -ResourceGroupName $ResourceGroupName).ResourceId
+   
+   Set-AzWebApp -WebApp $webApp -ApplicationInsightsId $AppInsightsId
+
+
 
  #Validate the name
  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
@@ -143,7 +148,7 @@ function CreateAppServicePlan {
   param(
     [Parameter(Mandatory)][string]$ResourceGroupName,
     [Parameter(Mandatory)][string]$AppServicePlanName,
-    $location = "eastus"
+    $location = "East US"
   )
   # crear asp
   New-AzAppServicePlan -ResourceGroupName $ResourceGroupName -Name $AppServicePlanName -Location $location -Tier "F1"
@@ -163,7 +168,7 @@ function CreateAppService {
     [Parameter(Mandatory)][string]$AppServiceName,
     $location = "West US"
   )
-  # crear app service WAP
+  # create app service WAP
 
   New-AzWebApp  `
     -Name $AppServiceName `
@@ -171,7 +176,7 @@ function CreateAppService {
     -AppServicePlan $AppServicePlanName   `
     -Location $location `
 
-  #validar que se haya creado
+  #Validate if resource exist
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
     Write-LogCustom -Message "App Service $AppServiceName created successfully"
   }
@@ -266,10 +271,13 @@ function DeleteResource {
 
 }
 
-# Connect to azure
-Connect-AzAccount | Out-Null
+# Connect to azure and authenticate with suscription ID
+
+Connect-AzAccount -UseDeviceAuthentication
+Set-AzContext -SubscriptionId '2847bbe3-f511-4cd8-b827-49882cfbea1d'
+
 if ($Action -eq "create") {
-  # Crear all. The user introduce "All" as parameter
+  # Create all. The user introduce "All" as parameter
   if (!$ResourceGroup -and !$AppServicePlan -and !$AppService -and !$AppInsights) {
     CreateAllResources
   }
@@ -294,14 +302,13 @@ if ($Action -eq "create") {
     }
     $global:ResourceGroupNameGlobal = $ResourceGroupName
     Create-ResourceGroup -ResourceGroupName $ResourceGroupName
-    # validar que se haya creado
+    #Validate if resource exist
     if (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
       Write-LogCustom -Message "Resource group $ResourceGroupName created successfully"
     }
     else {
       Write-LogCustom -Message "Failed to delete $ResourceGroupName created successfully"
     }
-    # si no selecciono solo rsg, creo el/los recursos dentro del mismo rsg
     
     if ($AppServicePlan) {
       if ($AppServicePlanName) {
@@ -319,7 +326,7 @@ if ($Action -eq "create") {
         $AppServicePlanName = CreateResourceName 
         Write-LogCustom -Message "New resource name $AppServicePlanName created successfully"
       }
-      # Valido que el nombre elegido o creado, esté disponible en Azure o lo voy a recrear hasta que no exista uno igual
+      #Validate if resource exist
       while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
         Write-LogCustom -Message "The name $AppServicePlanName is not available in Azure"
         $AppServicePlanName = CreateResourceName 
@@ -348,7 +355,7 @@ if ($Action -eq "create") {
         $AppServiceName = CreateResourceName 
         Write-LogCustom -Message "New resource name $AppServiceName created successfully"
       }
-      # Valido que el nombre elegido o creado, esté disponible en Azure o lo voy a recrear hasta que no exista uno igual
+      #Validate if resource exist
       while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
         Write-LogCustom -Message "The name $AppServiceName is not available in Azure"
         $AppServiceName = CreateResourceName 
@@ -377,7 +384,7 @@ if ($Action -eq "create") {
         $AppInsightsName = CreateResourceName 
         Write-LogCustom -Message "New resource name $AppInsightsName created successfully"
       }
-      # Valido que el nombre elegido o creado, esté disponible en Azure o lo voy a recrear hasta que no exista uno igual
+      #Validate if resource exist
       while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
         Write-LogCustom -Message "The name $AppInsightsName is not available in Azure"
         $AppInsightsName = CreateResourceName 

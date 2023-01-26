@@ -4,4 +4,4 @@ variables:
   LocationSecondary: 'West US'
   azureSubscription: 'Azure Subscription Academy'
   appType: 'Web App on Windows'
-  appName: 'webapp-JeraldinneMolleda'
+  appName: 'UWUDCTPJMWAP07'
