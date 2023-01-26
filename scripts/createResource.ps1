@@ -111,17 +111,16 @@ function CreateAllResources {
    -ResourceGroupName $ResourceGroupName `
    -Location $locationPrimary `
 
-   # Get the App Service and Application Insights resources
-   $webApp = Get-AzWebApp -Name $AppServiceName -ResourceGroupName $ResourceGroupName
-   $AppInsights = Get-AzApplicationInsights -Name $AppInsightsName -ResourceGroupName $ResourceGroupName
+  # Get the App Service
+  $webApp = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $AppServiceName
+
+  # Get the Application insights resource
+  $appInsights = Get-AzResource -ResourceGroupName $ResourceGroupName  -Name $AppInsightsName -ResourceType "Microsoft.Insights/components"
+  $link = New-AzResourceLink -Id $appInsights.ResourceId
+
+  # Update the App Service with the new link
+  $webApp | Set-AzWebApp -ApplicationInsightsResourceId $link.Id
    
-   # Associate the Application Insights instance to the App Service
-   $AppInsightsId = (Get-AzResource -Name $AppInsightsName -ResourceGroupName $ResourceGroupName).ResourceId
-   
-   Set-AzWebApp -WebApp $webApp -ApplicationInsightsId $AppInsightsId
-
-
-
  #Validate the name
  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
    Write-LogCustom -Message "Application Insights $AppInsightsName created successfully"
@@ -270,6 +269,12 @@ function DeleteResource {
 
 }
 
+
+#------------------------------------------------------- 
+#----------- Deploying resources to azure --------------
+#-------------------------------------------------------
+
+
 # Connect to azure and authenticate with suscription ID
 
 Connect-AzAccount -UseDeviceAuthentication
@@ -399,6 +404,10 @@ if ($Action -eq "create") {
   
   }
 }
+
+#------------------------------------------------------- 
+#----------- Delete resources in azure--- --------------
+#-------------------------------------------------------
 
 elseif ($Action -eq "delete") {
   #Cuando se usa solo el parametro delete, se elimina el ultimo resource group creado previamente con este script con el parametro -create.
