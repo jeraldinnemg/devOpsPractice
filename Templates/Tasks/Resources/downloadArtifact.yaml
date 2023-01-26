@@ -17,6 +17,6 @@ steps:
   inputs:
     azureSubscription: 'Azure Subscription Academy'
     appType: 'webApp'
-    appName: 'UWUDCTPJMWAP07'
+    appName: 'UWUDCTPJMWAP76'
     package: '$(System.DefaultWorkingDirectory)/AzureTestProject'
     deploymentMethod: 'auto'
