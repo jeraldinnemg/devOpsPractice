@@ -10,7 +10,7 @@ pool:
 resources:
   pipelines: 
   - pipeline: Swagger-CI-JeraldinneMolleda
-    project: Swagger-FinalAssessment
+    project: CT Engineering School
     source: Swagger-CI-JeraldinneMolleda
 
 
