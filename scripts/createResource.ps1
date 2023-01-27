@@ -1,5 +1,5 @@
 param(
-  [ValidateSet("create", "delete", ErrorMessage = "Action is not valid")]
+  [ValidateSet("create", "delete")]
   [Parameter(Mandatory)][string]$Action,
   # el usuario tiene que poder crear o borrar uno o más recursos
   [switch]$ResourceGroup,
