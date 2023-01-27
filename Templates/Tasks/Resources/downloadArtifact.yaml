@@ -19,4 +19,4 @@ steps:
     appType: 'webApp'
     appName: 'UWUDCTPJMWAP76'
     package: '$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/RoundTheCode.AzureTestProject.zip'
-    DeploymentType: zipDeploy
+    deploymentMethod: zipDeploy
