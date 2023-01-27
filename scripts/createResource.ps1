@@ -1,5 +1,5 @@
 param(
-  [ValidateSet("create", "delete")]
+  [ValidateSet("create")]
   [Parameter(Mandatory)][string]$Action,
   # el usuario tiene que poder crear o borrar uno o más recursos
   [switch]$ResourceGroup,
