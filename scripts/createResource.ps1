@@ -88,7 +88,7 @@ function CreateAllResources {
     -ResourceGroupName $ResourceGroupName `
     -AppServicePlan $appServicePlanName   `
     -Location $locationSecondary `
-    Write-Host "##vso[task.setvariable variable=ResourceName;]$AppServiceName"
+
 
     Write-Host "##vso[task.setvariable variable=AppServiceName;]$AppServiceName"
   #Validate the name
@@ -118,7 +118,8 @@ function CreateAllResources {
    Write-Host "##vso[task.setvariable variable=ResourceName;]$AppInsightsName"
   # Get the App Service
   $webApp = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $AppServiceName
-
+  
+  Write-Host "##vso[task.setvariable variable=webApp;]$webApp"
   # Get the Application insights resource
   $appInsights = Get-AzResource -ResourceGroupName $ResourceGroupName  -Name $AppInsightsName -ResourceType "Microsoft.Insights/components"
   $link = New-AzResourceLink -Id $appInsights.ResourceId
