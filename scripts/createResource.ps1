@@ -89,6 +89,8 @@ function CreateAllResources {
     -AppServicePlan $appServicePlanName   `
     -Location $locationSecondary `
     Write-Host "##vso[task.setvariable variable=ResourceName;]$AppServiceName"
+
+    Write-Host "##vso[task.setvariable variable=AppServiceName;]$AppServiceName"
   #Validate the name
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
     Write-LogCustom -Message "App Service $AppServiceName created successfully"
