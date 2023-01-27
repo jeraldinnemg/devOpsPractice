@@ -18,5 +18,6 @@ steps:
     azureSubscription: 'Azure Subscription Academy'
     appType: 'webApp'
     appName: 'UWUDCTPJMWAP76'
-    package: $(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/RoundTheCode.AzureTestProject.zip
-    deploymentMethod: zipDeploy
+    packageForLinux: '$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/RoundTheCode.AzureTestProject.zip'
+    enableCustomDeployment: true
+    DeploymentType: zipDeploy
