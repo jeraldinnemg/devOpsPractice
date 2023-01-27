@@ -31,11 +31,13 @@ function CreateAllResources {
   while (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
     Write-LogCustom -Message "The name $ResourceGroupName is not available in Azure"
     $ResourceGroupName = CreateResourceName -ResourceType "Resource group"
+
   }
   Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
             
   #Deploy the RSG in Azure
   New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
+  Write-Host "##vso[task.setvariable variable=ResourceName;]$ResourceGroupName"
             
 
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
@@ -61,7 +63,7 @@ function CreateAllResources {
     -ResourceGroupName $ResourceGroupName `
     -Location $locationSecondary `
     -Tier "F1"
-  
+    Write-Host "##vso[task.setvariable variable=ResourceName;]$AppServicePlanName"
     #Validate the name
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
     Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
@@ -86,7 +88,7 @@ function CreateAllResources {
     -ResourceGroupName $ResourceGroupName `
     -AppServicePlan $appServicePlanName   `
     -Location $locationSecondary `
-
+    Write-Host "##vso[task.setvariable variable=ResourceName;]$AppServiceName"
   #Validate the name
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
     Write-LogCustom -Message "App Service $AppServiceName created successfully"
@@ -111,6 +113,7 @@ function CreateAllResources {
    -ResourceGroupName $ResourceGroupName `
    -Location $locationPrimary `
 
+   Write-Host "##vso[task.setvariable variable=ResourceName;]$AppInsightsName"
   # Get the App Service
   $webApp = Get-AzWebApp -ResourceGroupName $ResourceGroupName -Name $AppServiceName
 
@@ -274,11 +277,6 @@ function DeleteResource {
 #----------- Deploying resources to azure --------------
 #-------------------------------------------------------
 
-
-# Connect to azure and authenticate with suscription ID
-
-Connect-AzAccount -UseDeviceAuthentication
-Set-AzContext -SubscriptionId '2847bbe3-f511-4cd8-b827-49882cfbea1d'
 
 if ($Action -eq "create") {
   # Create all. The user introduce "All" as parameter
