@@ -23,23 +23,18 @@ function CreateAllResources {
   Import-Module $path
   Write-Output  $path
 
+# Get the resource name from the previous script
+$resourceName = $env:resourceName
+
   #Call the function to create de RSG Name
   $ResourceGroupName = CreateResourceName 
   Write-Output $ResourceGroupName
-
-  #Call the function to validate if the resource alredy exists           
-  while (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
-    Write-LogCustom -Message "The name $ResourceGroupName is not available in Azure"
-    $ResourceGroupName = CreateResourceName -ResourceType "Resource group"
-
-  }
-  Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
-            
+      
   #Deploy the RSG in Azure
   New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
-  Write-Host "##vso[task.setvariable variable=ResourceName;]$ResourceGroupName"
+ 
+  
             
-
   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
     Write-LogCustom -Message "Resource Group $ResourceGroupName created successfully"
   }
@@ -49,14 +44,7 @@ function CreateAllResources {
 
   #Call the function to create de ASP Name
   $AppServicePlanName = CreateResourceName 
-            
-  #Call the function to validate if the resource alredy exists
-  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-    Write-LogCustom -Message "The name $AppServicePlanName is not available in Azure"
-    $AppServicePlanName = CreateResourceName 
-  }
-  Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
-          
+                   
   #Deploy the ASP in Azure
   New-AzAppServicePlan  `
     -Name $AppServicePlanName `
@@ -64,24 +52,12 @@ function CreateAllResources {
     -Location $locationSecondary `
     -Tier "F1"
     Write-Host "##vso[task.setvariable variable=ResourceName;]$AppServicePlanName"
-    #Validate the name
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-    Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create App Service Plan $AppServicePlanName"
-  }
+
+    
  
   #Call the function to create de App Service
   $AppServiceName = CreateResourceName 
             
-  #Call the function to validate if the resource alredy exists
-  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-    Write-LogCustom -Message "The name $AppServiceName is not available in Azure"
-    $AppServiceName = CreateResourceName 
-  }
-  Write-LogCustom -Message "New app service name $AppServiceName created successfully"
-          
   #Deploy the App service in Azure
   New-AzWebApp  `
     -Name $AppServiceName `
@@ -90,25 +66,13 @@ function CreateAllResources {
     -Location $locationSecondary `
 
 
-    Write-Host "##vso[task.setvariable variable=AppServiceName;]$AppServiceName"
-  #Validate the name
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-    Write-LogCustom -Message "App Service $AppServiceName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create App Service $AppServiceName"
-  }
+  Write-Host "##vso[task.setvariable variable=AppServiceName;]$AppServiceName"
+  
 
  #Call the function to create de Application Insights instance name
  $AppInsightsName = CreateResourceName 
             
- #Call the function to validate if the resource alredy exists
- while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
-   Write-LogCustom -Message "The name $AppInsightsName is not available in Azure"
-   $AppInsightsName = CreateResourceName 
- }
- Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
-         
+ 
  #Deploy the App insights in Azure
  New-AzApplicationInsights  `
    -Name $AppInsightsName `
@@ -138,79 +102,79 @@ function CreateAllResources {
 }
 
 
-function CreateResourceGroup {
-  param(
-    [Parameter(Mandatory)][string]$ResourceGroupName,
-    $location = "eastus"
-  )
-  if (!(ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName)) {
-    New-AzResourceGroup -Name $ResourceGroupName -Location $location
-  }
-}
+# function CreateResourceGroup {
+#   param(
+#     [Parameter(Mandatory)][string]$ResourceGroupName,
+#     $location = "eastus"
+#   )
+#   if (!(ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName)) {
+#     New-AzResourceGroup -Name $ResourceGroupName -Location $location
+#   }
+# }
 
-function CreateAppServicePlan {
-  param(
-    [Parameter(Mandatory)][string]$ResourceGroupName,
-    [Parameter(Mandatory)][string]$AppServicePlanName,
-    $location = "East US"
-  )
-  # crear asp
-  New-AzAppServicePlan -ResourceGroupName $ResourceGroupName -Name $AppServicePlanName -Location $location -Tier "F1"
-  #validar que se haya creado
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-    Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create App Service Plan $AppServicePlanName"
-  }
-}
+# function CreateAppServicePlan {
+#   param(
+#     [Parameter(Mandatory)][string]$ResourceGroupName,
+#     [Parameter(Mandatory)][string]$AppServicePlanName,
+#     $location = "East US"
+#   )
+#   # crear asp
+#   New-AzAppServicePlan -ResourceGroupName $ResourceGroupName -Name $AppServicePlanName -Location $location -Tier "F1"
+#   #validar que se haya creado
+#   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
+#     Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
+#   }
+#   else {
+#     Write-LogCustom -Message "Failed to create App Service Plan $AppServicePlanName"
+#   }
+# }
 
-function CreateAppService {
-  param(
-    [Parameter(Mandatory)][string]$ResourceGroupName,
-    [Parameter(Mandatory)][string]$AppServicePlanName,
-    [Parameter(Mandatory)][string]$AppServiceName,
-    $location = "West US"
-  )
-  # create app service WAP
+# function CreateAppService {
+#   param(
+#     [Parameter(Mandatory)][string]$ResourceGroupName,
+#     [Parameter(Mandatory)][string]$AppServicePlanName,
+#     [Parameter(Mandatory)][string]$AppServiceName,
+#     $location = "West US"
+#   )
+#   # create app service WAP
 
-  New-AzWebApp  `
-    -Name $AppServiceName `
-    -ResourceGroupName $ResourceGroupName `
-    -AppServicePlan $AppServicePlanName   `
-    -Location $location `
+#   New-AzWebApp  `
+#     -Name $AppServiceName `
+#     -ResourceGroupName $ResourceGroupName `
+#     -AppServicePlan $AppServicePlanName   `
+#     -Location $location `
 
-  #Validate if resource exist
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-    Write-LogCustom -Message "App Service $AppServiceName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create App Service Plan $AppServiceName"
-  }
-}
+#   #Validate if resource exist
+#   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
+#     Write-LogCustom -Message "App Service $AppServiceName created successfully"
+#   }
+#   else {
+#     Write-LogCustom -Message "Failed to create App Service Plan $AppServiceName"
+#   }
+# }
 
-function CreateAppInsights {
-  param(
-    [Parameter(Mandatory)][string]$ResourceGroupName,
-    [Parameter(Mandatory)][string]$AppInsightsName,
-    $location = "East US"
-  )
-  # crear app insights
+# function CreateAppInsights {
+#   param(
+#     [Parameter(Mandatory)][string]$ResourceGroupName,
+#     [Parameter(Mandatory)][string]$AppInsightsName,
+#     $location = "East US"
+#   )
+#   # crear app insights
 
-  New-AzApplicationInsights  `
-  -Name $AppInsightsName `
-  -ResourceGroupName $ResourceGroupName `
-  -Location $location `
+#   New-AzApplicationInsights  `
+#   -Name $AppInsightsName `
+#   -ResourceGroupName $ResourceGroupName `
+#   -Location $location `
 
 
-  #validar que se haya creado
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
-    Write-LogCustom -Message "AppInsight $AppInsightsName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create AppInsight $AppInsightsName"
-  }
-}
+#   #validar que se haya creado
+#   if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
+#     Write-LogCustom -Message "AppInsight $AppInsightsName created successfully"
+#   }
+#   else {
+#     Write-LogCustom -Message "Failed to create AppInsight $AppInsightsName"
+#   }
+# }
 
 function DeleteResource {
   # Delete all the resources

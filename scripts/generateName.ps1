@@ -88,6 +88,7 @@
       }
 
       $ResourceName = ($LocationCode + $EnvironmentCode + $ProjectName + $CandidateNameInitials + $ResourceTypeCode + $InstanceNumber).Replace(" ", "").ToUpper()
+      $global:ResourceName = $ResourceName
       Write-Host "##vso[task.setvariable variable=ResourceName;]$ResourceName"
       return $ResourceName 
       Write-LogCustom -Message $ResourceName
@@ -98,119 +99,4 @@
     }
   }
 
-#------------------------------------------------------- 
-#-----Function to validate the resource name -----------
-#-------------------------------------------------------
-  function ValidateResourceName {
-    # Check if the resource name is according to the 'Naming Convention'
-    # Example:
-    # The name of an App Service deployed in West US would be: UWUDCTPPCWAP01
-    # UWU => West US
-    # D => Development
-    # CTP => Project Name
-    # PC => Candidate Name
-    # WAP => Web Application
-    # 01 => Instance Number
-    
-    param(
-      [Parameter(Mandatory)]$ResourceName
-    )
-    $ValidationStatus = $true
-    $LengthExpected = 14
-    $OnlyAlphanumericRegex = '^[a-zA-Z0-9]+$'
-
-    $LocationHash = @{
-      "USE" = "East US"
-      "UE2" = "East US 2"
-      "UWU" = "West US"
-      "UW2" = "West US 2"
-    }
-    $EnvironmentHash = @{
-      "D" = "DEV"
-      "Q" = "QA"
-      "U" = "UAT"
-      "P" = "PROD"
-    }
-    $ResourceTypeHash = @{
-      "RSG" = "Resource Group" 
-      "WAP" = "App Service"
-      "ASP" = "App Service Plan"
-      "AIS" = "Application Insights"
-      "AAA" = "Automation Account"
-    }
-
-    $Location = $ResourceName.Substring(0,3)
-    $Environment = $ResourceName.Substring(3,1)
-    $ResourceType = $ResourceName.Substring(9,3)
-    if($LocationHash.ContainsKey($Location)) {
-      Write-LogCustom -Message "Location $($LocationHash.$Location) is valid"
-    }
-    else { 
-      Write-LogCustom -Message "Location $Location is Not supported"
-      $ValidationStatus = $false
-    }
-    if($EnvironmentHash.ContainsKey($Environment)) {
-      Write-LogCustom -Message "Environment $($EnvironmentHash.$Environment) is valid"
-    }
-    else {
-      Write-LogCustom -Message "Environment $Environment is Not supported"
-      $ValidationStatus = $false
-    }
-    if($ResourceTypeHash.ContainsKey($ResourceType)) {
-      Write-LogCustom -Message "Resource Type $($ResourceTypeHash.$ResourceType) is valid" 
-    }
-    else {
-      Write-LogCustom -Message "Resource Type $ResourceType is Not supported"
-      $ValidationStatus = $false
-    }
-    if($ResourceName -match $OnlyAlphanumericRegex){
-      Write-LogCustom -Message "Resource Name chars are valid"
-      $ValidationStatus = $false
-
-      if ($ResourceName.Length -eq $LengthExpected){
-        Write-LogCustom -Message  "The name length is $($ResourceName.Length) is valid"
-      }
-      else{
-        Write-LogCustom -Message  "The name length is $($ResourceName.Length) while it's expected $LengthExpected"
-        $ValidationStatus = $false
-      }
-    }
-    else{
-      Write-LogCustom -Message "Only alphanumeric characters are accepted"
-      $ValidationStatus = $false
-    }
-    return $ValidationStatus
-  }
-
-#------------------------------------------------------- 
-#-Funtion to validate if the resource exists in Az------
-#-------------------------------------------------------
-  function ValidateResourceExists {
-    
-    param(
-      [ValidateSet("rsg", "rsc")]
-      [Parameter(Mandatory)][string]$RsgOrRsc,
-      [Parameter(Mandatory)][string]$ResourceName
-    )
-    try{
-      $ValidationStatus = $true
-      if($RsgOrRsc -eq "rsg"){
-        $existingRsg = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $ResourceName }
-        if(!$existingRsg){
-          $ValidationStatus = $false
-        }
-      }
-      elseif($RsgOrRsc -eq "rsc"){
-        $existingRsc = Get-AzResource | Where-Object { $_.Name -eq $ResourceName }
-        if(!$existingRsc){
-          $ValidationStatus = $false
-        }
-      }
-      return $ValidationStatus
-      Write-LogCustom -Message "The name is available"
-    }
-    catch{
-      Write-LogCustom -Message "Failed to validate if the resource exists in Azure"
-    }
-  }
 
