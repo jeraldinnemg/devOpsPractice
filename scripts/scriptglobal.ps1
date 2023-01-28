@@ -494,8 +494,7 @@ function Write-LogCustom {
   
   # Connect to azure and authenticate with suscription ID
   
-  Connect-AzAccount -UseDeviceAuthentication
-  Set-AzContext -SubscriptionId '2847bbe3-f511-4cd8-b827-49882cfbea1d'
+  Connect-AzAccount
   
   if ($Action -eq "create") {
     # Create all. The user introduce "All" as parameter
