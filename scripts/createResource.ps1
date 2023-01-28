@@ -4,6 +4,7 @@
 param(
     [ValidateSet("create", "delete")]
     [Parameter(Mandatory)][string]$Action,
+    [Parameter(Mandatory)][string]$ResourceName,
     [switch]$ResourceGroup,
     [switch]$AppServicePlan,
     [switch]$AppService,
@@ -29,34 +30,34 @@ function CreateAllResources {
   Invoke-Expression ". $env:System_DefaultWorkingDirectory\scripts\generateName.ps1"  
 
   #Call the function to create de RSG Name
-  $ResourceGroupName = CreateResourceName 
+  $ResourceGroupName = $ResourceName 
 
   #Call the function to validate if the resource alredy exists           
-  while (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
-    Write-LogCustom -Message "The name $ResourceGroupName is not available in Azure"
-    $ResourceGroupName = CreateResourceName -ResourceType "Resource group"
-  }
-  Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
+  # while (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
+  #   Write-LogCustom -Message "The name $ResourceGroupName is not available in Azure"
+  #   $ResourceGroupName = CreateResourceName -ResourceType "Resource group"
+  # }
+  # Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
             
   #Deploy the RSG in Azure
   New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
             
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
-    Write-LogCustom -Message "Resource Group $ResourceGroupName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create Resource Group $ResourceGroupName"
-  }
+  # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
+  #   Write-LogCustom -Message "Resource Group $ResourceGroupName created successfully"
+  # }
+  # else {
+  #   Write-LogCustom -Message "Failed to create Resource Group $ResourceGroupName"
+  # }
 
   #Call the function to create de ASP Name
-  $AppServicePlanName = CreateResourceName 
+  $AppServicePlanName = $ResourceName
             
   #Call the function to validate if the resource alredy exists
-  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-    Write-LogCustom -Message "The name $AppServicePlanName is not available in Azure"
-    $AppServicePlanName = CreateResourceName 
-  }
-  Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
+  # while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
+  #   Write-LogCustom -Message "The name $AppServicePlanName is not available in Azure"
+  #   $AppServicePlanName = CreateResourceName 
+  # }
+  # Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
           
   #Deploy the ASP in Azure
   New-AzAppServicePlan  `
@@ -66,22 +67,22 @@ function CreateAllResources {
     -Tier "F1"
   
     #Validate the name
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-    Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
-  }
-  else {
-    Write-LogCustom -Message "Failed to create App Service Plan $AppServicePlanName"
-  }
+  # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
+  #   Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
+  # }
+  # else {
+  #   Write-LogCustom -Message "Failed to create App Service Plan $AppServicePlanName"
+  # }
  
   #Call the function to create de App Service
-  $AppServiceName = CreateResourceName 
+  $AppServiceName = $ResourceName
             
   #Call the function to validate if the resource alredy exists
-  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-    Write-LogCustom -Message "The name $AppServiceName is not available in Azure"
-    $AppServiceName = CreateResourceName 
-  }
-  Write-LogCustom -Message "New app service name $AppServiceName created successfully"
+  # while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
+  #   Write-LogCustom -Message "The name $AppServiceName is not available in Azure"
+  #   $AppServiceName = CreateResourceName 
+  # }
+  # Write-LogCustom -Message "New app service name $AppServiceName created successfully"
           
   #Deploy the App service in Azure
   New-AzWebApp  `
@@ -99,14 +100,14 @@ function CreateAllResources {
   }
 
  #Call the function to create de Application Insights instance name
- $AppInsightsName = CreateResourceName 
+ $AppInsightsName = $ResourceName
             
  #Call the function to validate if the resource alredy exists
- while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
-   Write-LogCustom -Message "The name $AppInsightsName is not available in Azure"
-   $AppInsightsName = CreateResourceName 
- }
- Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
+#  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
+#    Write-LogCustom -Message "The name $AppInsightsName is not available in Azure"
+#    $AppInsightsName = CreateResourceName 
+#  }
+#  Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
          
  #Deploy the App insights in Azure
  New-AzApplicationInsights  `
@@ -126,14 +127,14 @@ function CreateAllResources {
 
 
  #Validate the name
- if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
-   Write-LogCustom -Message "Application Insights $AppInsightsName created successfully"
- }
- else {
-   Write-LogCustom -Message "Failed to create App Service Plan $AppInsightsName"
- }
+#  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
+#    Write-LogCustom -Message "Application Insights $AppInsightsName created successfully"
+#  }
+#  else {
+#    Write-LogCustom -Message "Failed to create App Service Plan $AppInsightsName"
+#  }
 
-}
+# }
 
 function CreateResourceGroup {
   param(

@@ -89,7 +89,7 @@
 
       $ResourceName = ($LocationCode + $EnvironmentCode + $ProjectName + $CandidateNameInitials + $ResourceTypeCode + $InstanceNumber).Replace(" ", "").ToUpper()
       $global:ResourceName = $ResourceName
-      Write-Host "##vso[task.setvariable variable=resourceName]$ResourceName"
+      Write-Host "##vso[task.setvariable variable=ResourceName]$ResourceName"
       return $ResourceName 
       Write-LogCustom -Message $ResourceName
     }
