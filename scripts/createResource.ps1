@@ -58,7 +58,7 @@ param(
   # Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
           
   #Deploy the ASP in Azure
-  elseif($ResourceType -eq "App Service Plan"){
+  elseif($ResourceName -like "*ASP*"){
   New-AzAppServicePlan  `
     -Name $AppServicePlanName `
     -ResourceGroupName $resourceGName  `
@@ -84,11 +84,11 @@ param(
   # Write-LogCustom -Message "New app service name $AppServiceName created successfully"
           
   #Deploy the App service in Azure
-  elseif($ResourceType -eq "App Service"){
+  elseif($ResourceName -like "*WAP*"){
   New-AzWebApp  `
     -Name $AppServiceName `
     -ResourceGroupName $resourceGName  `
-    -AppServicePlan $appServicePlanName   `
+    -AppServicePlan $AppServicePlanName   `
     -Location $locationSecondary `
   }
 
@@ -112,7 +112,7 @@ param(
 #  Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
          
  #Deploy the App insights in Azure
- elseif($ResourceType -eq "Application Insights"){
+ elseif($ResourceName -like "*AIS*"){
  New-AzApplicationInsights  `
    -Name $AppInsightsName `
    -ResourceGroupName $resourceGName  `
@@ -285,12 +285,12 @@ param(
 
 # Connect to azure and authenticate with suscription ID
 
-Connect-AzAccount
+# Connect-AzAccount
 
-if ($Action -eq "create") {
-  # Create all. The user introduce "All" as parameter
-  CreateAllResources
-}
+# if ($Action -eq "create") {
+#   # Create all. The user introduce "All" as parameter
+#   CreateAllResources
+# }
   
 
 #------------------------------------------------------- 
