@@ -19,8 +19,6 @@ param(
 #-----------Function to create all resoruces ----------
 #-------------------------------------------------------
 
-Invoke-Expression -Command ". .\scripts\generateName.ps1"
-CreateResourceName
 
 function CreateAllResources {
   param(
@@ -28,7 +26,7 @@ function CreateAllResources {
   $locationSecondary = "West US"
   )
 
-  #Invoke-Expression ". $env:System_DefaultWorkingDirectory\scripts\script1.ps1"  
+  Invoke-Expression ". $env:System_DefaultWorkingDirectory\scripts\generateName.ps1"  
 
   #Call the function to create de RSG Name
   $ResourceGroupName = CreateResourceName 
