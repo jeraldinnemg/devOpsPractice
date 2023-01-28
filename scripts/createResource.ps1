@@ -27,7 +27,9 @@ function CreateAllResources {
   $locationSecondary = "West US"
   )
 
-  $resourceGName = $ResourceName
+
+  $resourceGName = "USEDCTPJMRSG01"
+  
   $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
   if(!$existingRG){
   New-AzResourceGroup -Name $resourceGName -Location $locationPrimary
@@ -52,7 +54,7 @@ function CreateAllResources {
   # }
 
   #Call the function to create de ASP Name
-  $AppServicePlanName = $ResourceName
+  #$AppServicePlanName = $ResourceName
             
   #Call the function to validate if the resource alredy exists
   # while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
