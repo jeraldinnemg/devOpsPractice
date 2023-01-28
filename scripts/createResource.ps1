@@ -27,10 +27,12 @@ function CreateAllResources {
   $locationSecondary = "West US"
   )
 
-  Invoke-Expression ". $env:System_DefaultWorkingDirectory\scripts\generateName.ps1"  
+  $resourceGName = $ResourceName
+  $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
+  if(!$existingRG){
+  New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
+  }
 
-  #Call the function to create de RSG Name
-  $ResourceGroupName = $ResourceName 
 
   #Call the function to validate if the resource alredy exists           
   # while (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
@@ -40,7 +42,7 @@ function CreateAllResources {
   # Write-LogCustom -Message "New resource group $ResourceGroupName created successfully"
             
   #Deploy the RSG in Azure
-  New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
+
             
   # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $ResourceGroupName) {
   #   Write-LogCustom -Message "Resource Group $ResourceGroupName created successfully"
@@ -60,12 +62,13 @@ function CreateAllResources {
   # Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
           
   #Deploy the ASP in Azure
+  elseif($ResourceType -eq "App Service Plan"){
   New-AzAppServicePlan  `
     -Name $AppServicePlanName `
     -ResourceGroupName $ResourceGroupName `
     -Location $locationSecondary `
     -Tier "F1"
-  
+  }
     #Validate the name
   # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
   #   Write-LogCustom -Message "App Service Plan $AppServicePlanName created successfully"
@@ -75,7 +78,7 @@ function CreateAllResources {
   # }
  
   #Call the function to create de App Service
-  $AppServiceName = $ResourceName
+  #$AppServiceName = $ResourceName
             
   #Call the function to validate if the resource alredy exists
   # while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
@@ -85,22 +88,23 @@ function CreateAllResources {
   # Write-LogCustom -Message "New app service name $AppServiceName created successfully"
           
   #Deploy the App service in Azure
+  elseif($ResourceType -eq "App Service"){
   New-AzWebApp  `
     -Name $AppServiceName `
     -ResourceGroupName $ResourceGroupName `
     -AppServicePlan $appServicePlanName   `
     -Location $locationSecondary `
-
-  #Validate the name
-  if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-    Write-LogCustom -Message "App Service $AppServiceName created successfully"
   }
-  else {
-    Write-LogCustom -Message "Failed to create App Service $AppServiceName"
-  }
+  # #Validate the name
+  # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
+  #   Write-LogCustom -Message "App Service $AppServiceName created successfully"
+  # }
+  # else {
+  #   Write-LogCustom -Message "Failed to create App Service $AppServiceName"
+  # }
 
  #Call the function to create de Application Insights instance name
- $AppInsightsName = $ResourceName
+#  $AppInsightsName = $ResourceName
             
  #Call the function to validate if the resource alredy exists
 #  while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
@@ -110,10 +114,12 @@ function CreateAllResources {
 #  Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
          
  #Deploy the App insights in Azure
+ elseif($ResourceType -eq "Application Insights"){
  New-AzApplicationInsights  `
    -Name $AppInsightsName `
    -ResourceGroupName $ResourceGroupName `
    -Location $locationPrimary `
+ }
 
    # Get the App Service and Application Insights resources
    #$webApp = Get-AzWebApp -Name $AppServiceName -ResourceGroupName $ResourceGroupName
@@ -285,128 +291,9 @@ Connect-AzAccount
 
 if ($Action -eq "create") {
   # Create all. The user introduce "All" as parameter
-  if (!$ResourceGroup -and !$AppServicePlan -and !$AppService -and !$AppInsights) {
-    CreateAllResources
-  }
-  
-  else {
-    # Create by resource. The user decide which resource to deploy according to the parameters
-    # Validate the name of the resource according to naming convention
-    if ($ResourceGroupName) {
-      if (ValidateResourceName -ResourceName $ResourceGroupName) {
-        Write-LogCustom -Message "The name $ResourceGroupName respects the EY naming convention"
-      }
-      else {
-        Write-LogCustom -Message "The name $ResourceGroupName is not valid according to EY naming convention"
-        $ResourceGroupName = CreateResourceName 
-        Write-LogCustom -Message "New resource name $ResourceGroupName created successfully"
-      }
-    }
-    else {
-      Write-LogCustom -Message "The user did not define a name"
-      $ResourceGroupName = CreateResourceName 
-      Write-LogCustom -Message "New resource name $ResourceGroupName created successfully"
-    }
-    $global:ResourceGroupNameGlobal = $ResourceGroupName
-    Create-ResourceGroup -ResourceGroupName $ResourceGroupName
-    #Validate if resource exist
-    if (ValidateResourceExists -RsgOrRsc "rsg" -ResourceName $ResourceGroupName) {
-      Write-LogCustom -Message "Resource group $ResourceGroupName created successfully"
-    }
-    else {
-      Write-LogCustom -Message "Failed to delete $ResourceGroupName created successfully"
-    }
-    
-    if ($AppServicePlan) {
-      if ($AppServicePlanName) {
-        if (ValidateResourceName -ResourceName $AppServicePlanName) {
-          Write-LogCustom -Message "The name $AppServicePlanName respects the EY naming convention"
-        }
-        else {
-          Write-LogCustom -Message "The name $AppServicePlanName is not valid according to EY naming convention"
-          $AppServicePlanName = CreateResourceName 
-          Write-LogCustom -Message "New resource name $AppServicePlanName created successfully"
-        }
-      }
-      else {
-        Write-LogCustom -Message "The user did not define a name"
-        $AppServicePlanName = CreateResourceName 
-        Write-LogCustom -Message "New resource name $AppServicePlanName created successfully"
-      }
-      #Validate if resource exist
-      while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServicePlanName) {
-        Write-LogCustom -Message "The name $AppServicePlanName is not available in Azure"
-        $AppServicePlanName = CreateResourceName 
-      }
-   
-      CreateAppServicePlan -ResourceGroupName $ResourceGroupName -AppServicePlanName $AppServicePlanName
-      
-      else {
-        Write-LogCustom -Message "Failed to deploy ASP"
-      }
-    }
-
-    if ($AppService) {
-      if ($AppServiceName) {
-        if (ValidateResourceName -ResourceName $AppServiceName) {
-          Write-LogCustom -Message "The name $AppServiceName respects the EY naming convention"
-        }
-        else {
-          Write-LogCustom -Message "The name $AppServiceName is not valid according to EY naming convention"
-          $AppServiceName = CreateResourceName 
-          Write-LogCustom -Message "New resource name $AppServiceName created successfully"
-        }
-      }
-      else {
-        Write-LogCustom -Message "The user did not define a name"
-        $AppServiceName = CreateResourceName 
-        Write-LogCustom -Message "New resource name $AppServiceName created successfully"
-      }
-      #Validate if resource exist
-      while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
-        Write-LogCustom -Message "The name $AppServiceName is not available in Azure"
-        $AppServiceName = CreateResourceName 
-      }
-   
-      CreateAppService -ResourceGroupName $ResourceGroupName -AppServiceName $AppServiceName
-      
-      else {
-        Write-LogCustom -Message "Failed to deploy WAP"
-      }
-    }
-
-    if ($ApplicationInsights) {
-      if ($AppInsightsName) {
-        if (ValidateResourceName -ResourceName $AppInsightsName) {
-          Write-LogCustom -Message "The name $AppInsightsName respects the EY naming convention"
-        }
-        else {
-          Write-LogCustom -Message "The name $AppInsightsName is not valid according to EY naming convention"
-          $AppInsightsName = CreateResourceName 
-          Write-LogCustom -Message "New resource name $AppInsightsName created successfully"
-        }
-      }
-      else {
-        Write-LogCustom -Message "The user did not define a name"
-        $AppInsightsName = CreateResourceName 
-        Write-LogCustom -Message "New resource name $AppInsightsName created successfully"
-      }
-      #Validate if resource exist
-      while (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppInsightsName) {
-        Write-LogCustom -Message "The name $AppInsightsName is not available in Azure"
-        $AppInsightsName = CreateResourceName 
-      }
-   
-      CreateAppInsights -ResourceGroupName $ResourceGroupName -AppInsightsName $AppInsightsName
-      
-      else {
-        Write-LogCustom -Message "Failed to deploy WAP"
-      }
-    }
-
-  
-  }
+  CreateAllResources
 }
+  
 
 #------------------------------------------------------- 
 #----------- Delete resources in azure--- --------------
