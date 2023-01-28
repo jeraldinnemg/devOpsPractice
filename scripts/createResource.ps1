@@ -30,7 +30,7 @@ function CreateAllResources {
   $resourceGName = $ResourceName
   $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
   if(!$existingRG){
-  New-AzResourceGroup -Name $ResourceGroupName -Location $locationPrimary
+  New-AzResourceGroup -Name $resourceGName -Location $locationPrimary
   }
 
 
@@ -65,7 +65,7 @@ function CreateAllResources {
   elseif($ResourceType -eq "App Service Plan"){
   New-AzAppServicePlan  `
     -Name $AppServicePlanName `
-    -ResourceGroupName $ResourceGroupName `
+    -ResourceGroupName $resourceGName  `
     -Location $locationSecondary `
     -Tier "F1"
   }
@@ -91,10 +91,12 @@ function CreateAllResources {
   elseif($ResourceType -eq "App Service"){
   New-AzWebApp  `
     -Name $AppServiceName `
-    -ResourceGroupName $ResourceGroupName `
+    -ResourceGroupName $resourceGName  `
     -AppServicePlan $appServicePlanName   `
     -Location $locationSecondary `
   }
+
+  Write-Host "##vso[task.setvariable variable=AppService]$AppService"
   # #Validate the name
   # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
   #   Write-LogCustom -Message "App Service $AppServiceName created successfully"
@@ -117,7 +119,7 @@ function CreateAllResources {
  elseif($ResourceType -eq "Application Insights"){
  New-AzApplicationInsights  `
    -Name $AppInsightsName `
-   -ResourceGroupName $ResourceGroupName `
+   -ResourceGroupName $resourceGName  `
    -Location $locationPrimary `
  }
 
