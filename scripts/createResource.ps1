@@ -134,7 +134,7 @@ function CreateAllResources {
 #    Write-LogCustom -Message "Failed to create App Service Plan $AppInsightsName"
 #  }
 
-# }
+}
 
 function CreateResourceGroup {
   param(
