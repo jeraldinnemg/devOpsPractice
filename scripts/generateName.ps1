@@ -1,3 +1,13 @@
+param(
+      [Parameter(Mandatory)]
+      [ValidateSet("East US", "East US 2", "West US", "West US 2")]$Location,
+      [Parameter(Mandatory)]
+      [ValidateSet("DEV", "QA", "UAT", "PROD")]
+      [string]$Environment,
+      [Parameter(Mandatory)]
+      [string]$ResourceType
+    )
+
 #------------------------------------------------------- 
 #-------- Function to save logs of the script  --------- 
 #------------------------------------------------------- 
@@ -31,20 +41,8 @@
 #------------------------------------------------------- 
 #-----Function to create the name of the resource ------
 #-------------------------------------------------------
-  function CreateResourceName {
 
-    param(
-      [Parameter(Mandatory)]
-      [string]$Location,
-      [ValidateSet("DEV", "QA", "UAT", "PROD")]
-      [string]$Environment = "DEV",
-      [ValidateSet("CTP")]
-      [string]$ProjectName = "CTP",
-      [ValidateSet("Jeraldinne Molleda")]
-      [string]$CandidateName = "Jeraldinne Molleda",
-      [Parameter(Mandatory)]
-      [string]$ResourceType
-    )
+    
 
     try {
       $LocationHash = @{
@@ -62,6 +60,8 @@
         "PROD" = "P"
       }
 
+      $ProjectName = "CTP"
+
       $EnvironmentCode = $EnvironmentHash.$Environment
 
       $ResourceTypeHash = @{
@@ -75,7 +75,8 @@
       $ResourceTypeCode = $ResourceTypeHash.$ResourceType
 
       # Get the first letter of the first name and the first letter of the last name
-        
+      
+      $CandidateName = "Jeraldinne Molleda"
       $CandidateNameInitials = $CandidateName[0] + $CandidateName.split()[1][0]
 
       $numbers = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
@@ -97,7 +98,7 @@
     catch {
       Write-LogCustom -Message  "Failed to create"
     }
-  }
+  
 
 #------------------------------------------------------- 
 #-----Function to validate the resource name -----------
@@ -216,4 +217,3 @@ function ValidateResourceExists {
   }
 }
 
-CreateResourceName
