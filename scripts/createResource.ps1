@@ -4,16 +4,7 @@
 param(
     [Parameter(Mandatory)]$resourceName,
     $locationPrimary = "East US",
-    $locationSecondary = "West US",
-    [switch]$ResourceGroup,
-    [switch]$AppServicePlan,
-    [switch]$AppService,
-    [switch]$AppInsights,
-    [switch]$All,
-    [string]$ResourceGroupName,
-    [string]$AppServicePlanName,
-    [string]$AppServiceName,
-    [string]$AppInsightsName
+    $locationSecondary = "West US"
   )
 
 #------------------------------------------------------- 
