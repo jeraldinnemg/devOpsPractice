@@ -2,7 +2,6 @@ param(
     [Parameter(Mandatory)]$resourceName
 )
 
-
 $resourceGName = "USEDCTPJMRSG01"
 $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
 
