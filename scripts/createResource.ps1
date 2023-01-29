@@ -58,7 +58,7 @@ param(
   # Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
           
   #Deploy the ASP in Azure
-  elseif($resourceName -like "*ASP*"){
+if($resourceName -like "*ASP*"){
   New-AzAppServicePlan  `
     -Name $resourceName `
     -ResourceGroupName $resourceGName  `
@@ -84,7 +84,7 @@ param(
   # Write-LogCustom -Message "New app service name $AppServiceName created successfully"
           
   #Deploy the App service in Azure
-  elseif($resourceName -like "*WAP*"){
+if($resourceName -like "*WAP*"){
   New-AzWebApp  `
     -Name $resourceName `
     -ResourceGroupName $resourceGName  `
