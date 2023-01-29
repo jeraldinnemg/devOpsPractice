@@ -3,7 +3,7 @@ param(
 )
 
 
-$resourceGName = "USEDCTPMCRSG01"
+$resourceGName = "USEDCTPJMRSG01"
 $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
 
 if(!$existingRG){
@@ -13,8 +13,6 @@ if(!$existingRG){
 if($resourceName -like "*WAP*"){
     New-AzWebApp -ResourceGroupName $resourceGName -Name $resourceName -Location "West US"
     Write-Host "##vso[task.setvariable variable=webAppName]$resourceName"
-    Write-Host "hola"
-
 }
 elseif($resourceName -like "*ASP*") {
     New-AzAppServicePlan -ResourceGroupName $resourceGName -Name $resourceName -Location "West US" -Tier "Free"
