@@ -2,7 +2,7 @@
 #-------- Parameters for the script  --------- 
 #------------------------------------------------------- 
 param(
-    [Parameter(Mandatory)][string]$ResourceName,
+    [Parameter(Mandatory)]$resourceName,
     $locationPrimary = "East US",
     $locationSecondary = "West US",
     [switch]$ResourceGroup,
@@ -58,9 +58,9 @@ param(
   # Write-LogCustom -Message "New app service plan $AppServicePlanName created successfully"
           
   #Deploy the ASP in Azure
-  elseif($ResourceName -like "*ASP*"){
+  elseif($resourceName -like "*ASP*"){
   New-AzAppServicePlan  `
-    -Name $AppServicePlanName `
+    -Name $resourceName `
     -ResourceGroupName $resourceGName  `
     -Location $locationSecondary `
     -Tier "F1"
@@ -84,15 +84,15 @@ param(
   # Write-LogCustom -Message "New app service name $AppServiceName created successfully"
           
   #Deploy the App service in Azure
-  elseif($ResourceName -like "*WAP*"){
+  elseif($resourceName -like "*WAP*"){
   New-AzWebApp  `
-    -Name $AppServiceName `
+    -Name $resourceName `
     -ResourceGroupName $resourceGName  `
     -AppServicePlan $AppServicePlanName   `
     -Location $locationSecondary `
   }
 
-  Write-Host "##vso[task.setvariable variable=AppService]$AppService"
+  Write-Host "##vso[task.setvariable variable=appService]$resourceName"
   # #Validate the name
   # if (ValidateResourceExists -RsgOrRsc "rsc" -ResourceName $AppServiceName) {
   #   Write-LogCustom -Message "App Service $AppServiceName created successfully"
@@ -112,9 +112,9 @@ param(
 #  Write-LogCustom -Message "New application insights $AppInsightsName created successfully"
          
  #Deploy the App insights in Azure
- elseif($ResourceName -like "*AIS*"){
+ elseif($resourceName -like "*AIS*"){
  New-AzApplicationInsights  `
-   -Name $AppInsightsName `
+   -Name $resourceName `
    -ResourceGroupName $resourceGName  `
    -Location $locationPrimary `
  }

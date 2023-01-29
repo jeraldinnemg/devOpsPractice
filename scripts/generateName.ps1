@@ -88,11 +88,10 @@ param(
         $InstanceNumber = $numbers | Get-Random -Count 2
       }
 
-      $ResourceName = ($LocationCode + $EnvironmentCode + $ProjectName + $CandidateNameInitials + $ResourceTypeCode + $InstanceNumber).Replace(" ", "").ToUpper()
+      $resourceName = ($LocationCode + $EnvironmentCode + $ProjectName + $CandidateNameInitials + $ResourceTypeCode + $InstanceNumber).Replace(" ", "").ToUpper()
 
-      return $ResourceName 
-      Write-Host "##vso[task.setvariable variable=ResourceName]$ResourceName"
-      Write-LogCustom -Message $ResourceName
+      Write-Host "##vso[task.setvariable variable=resourceName]$resourceName"
+      Write-LogCustom -Message $resourceName
     }
 
     catch {
