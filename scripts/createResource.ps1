@@ -1,41 +1,28 @@
-#------------------------------------------------------- 
-#-------- Parameters for the script  --------- 
-#------------------------------------------------------- 
 param(
-    [Parameter(Mandatory)]$resourceName,
-    $locationPrimary = "East US",
-    $locationSecondary = "West US"
-  )
-
-#------------------------------------------------------- 
-#-----------Function to create all resoruces ----------
-#-------------------------------------------------------
+    [Parameter(Mandatory)]$resourceName
+)
 
 
+$resourceGName = "USEDCTPMCRSG01"
+$existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
 
-  $resourceGName = "USEDCTPJMRSG01"
-  
-  $existingRG = Get-AzResourceGroup | Where-Object { $_.ResourceGroupName -eq $resourceGName }
-  if(!$existingRG){
-  New-AzResourceGroup -Name $resourceGName -Location $locationPrimary
-  }
+if(!$existingRG){
+    New-AzResourceGroup -Name $resourceGName -Location "East US"
+}
 
-  #Deploy the ASP in Azure
-if($resourceName -like "*ASP*"){
-  New-AzAppServicePlan -Name $resourceName -ResourceGroupName $resourceGName -Location $locationSecondary -Tier "F1"
-  }
-          
-  #Deploy the App service in Azure
-elseif($resourceName -like "*WAP*"){
-  New-AzWebApp -Name $resourceName -ResourceGroupName $resourceGName  -Location $locationSecondary `
-    Write-Host "##vso[task.setvariable variable=appService]$resourceName"
-  }
-         
- #Deploy the App insights in Azure
- elseif($resourceName -like "*AIS*"){
- New-AzApplicationInsights  -Name $resourceName -ResourceGroupName $resourceGName  -Location $locationPrimary `
- }
+if($resourceName -like "*WAP*"){
+    New-AzWebApp -ResourceGroupName $resourceGName -Name $resourceName -Location "West US"
+    Write-Host "##vso[task.setvariable variable=webAppName]$resourceName"
+    Write-Host "hola"
 
+}
+elseif($resourceName -like "*ASP*") {
+    New-AzAppServicePlan -ResourceGroupName $resourceGName -Name $resourceName -Location "West US" -Tier "Free"
+}
+elseif($resourceName -like "*AIS*") {
+    New-AzApplicationInsights -ResourceGroupName $resourceGName -Name $resourceName -Location "East US" 
+    
+}
    # Get the App Service and Application Insights resources
    #$webApp = Get-AzWebApp -Name $AppServiceName -ResourceGroupName $ResourceGroupName
    #$AppInsights = Get-AzApplicationInsights -Name $AppInsightsName -ResourceGroupName $ResourceGroupName
