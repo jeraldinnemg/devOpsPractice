@@ -11,7 +11,7 @@ steps:
     buildId: '373'
     #tags: # string. Optional. Use when buildType == specific && buildVersionToDownload != specific. Build Tags. 
     downloadType: 'single'
-    artifactName: 'Swagger-CD-JeraldinneMolleda'
+    artifactName: '_Swagger-CI-JeraldinneMolleda'
     downloadPath: '$(System.DefaultWorkingDirectory)'
 
 - task: PowerShell@2
