@@ -8,8 +8,7 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
-  name: Default
-  demands: EngSchool
+  name: EngSchool
 
 variables:
   buildPlatform: 'Any CPU'
