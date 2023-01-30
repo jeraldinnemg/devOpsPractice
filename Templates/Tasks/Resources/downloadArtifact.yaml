@@ -19,7 +19,7 @@ steps:
   continueOnError: false
   inputs:
     targetType: 'filePath'
-    filePath: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
+    filePath: './$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "West US" -ResourceType "App Service Plan" -Environment "DEV"'
     runScriptInSeparateScope: true
 
@@ -27,7 +27,7 @@ steps:
   displayName: 'Deploy resource app service plan copy'
   inputs:
     azureSubscription: 'Azure Subscription Academy'
-    ScriptPath: '$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/createResourceAzure.ps1'
+    ScriptPath: '$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/createResourceAzure.ps1'
     ScriptArguments: '-resourceName $(resourceName)'
     errorActionPreference: continue
     azurePowerShellVersion: LatestVersion
@@ -37,7 +37,7 @@ steps:
   continueOnError: false
   inputs:
     targetType: 'filePath'
-    filePath: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
+    filePath: './$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "West US" -ResourceType "App Service" -Environment "DEV"'
     runScriptInSeparateScope: true
 
@@ -45,7 +45,7 @@ steps:
   displayName: 'Deploy resource app service'
   inputs:
     azureSubscription: 'Azure Subscription Academy'
-    ScriptPath: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/createResourceAzure.ps1'
+    ScriptPath: './$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/createResourceAzure.ps1'
     ScriptArguments: '-resourceName $(resourceName)'
     errorActionPreference: continue
     azurePowerShellVersion: LatestVersion
@@ -55,7 +55,7 @@ steps:
   continueOnError: false
   inputs:
     targetType: 'filePath'
-    filePath: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
+    filePath: './$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "East US" -ResourceType "Application Insights" -Environment "DEV"'
     runScriptInSeparateScope: true
 
@@ -63,7 +63,7 @@ steps:
   displayName: 'Deploy resource application insights'
   inputs:
     azureSubscription: 'Azure Subscription Academy'
-    ScriptPath: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/createResourceAzure.ps1'
+    ScriptPath: './$(System.DefaultWorkingDirectory)/AzureTestProject/scripts/createResourceAzure.ps1'
     ScriptArguments: '-resourceName $(resourceName)'
     errorActionPreference: continue
     azurePowerShellVersion: LatestVersion
@@ -73,6 +73,6 @@ steps:
   inputs:
     azureSubscription: 'Azure Subscription Academy'
     WebAppName: '$(webAppName)'
-    packageForLinux: './$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/RoundTheCode.AzureTestProject.zip'
+    packageForLinux: './$(System.DefaultWorkingDirectory)/AzureTestProject/RoundTheCode.AzureTestProject.zip'
     enableCustomDeployment: true
     DeploymentType: zipDeploy
