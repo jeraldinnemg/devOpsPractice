@@ -5,6 +5,7 @@ trigger:
 # Pool #
 pool: 
   vmImage: windows-2019
+  name: 'EngSchool'
 
 # Resources #
 resources:
