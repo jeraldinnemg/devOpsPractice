@@ -17,7 +17,7 @@ steps:
 - task: PowerShell@2
   displayName: 'Generate name app service plan '
   inputs:
-    targetType: filePath
+    targetType: 'filePath'
     filePath: '$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "West US" -ResourceType "App Service Plan" -Environment "DEV"'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -35,7 +35,7 @@ steps:
 - task: PowerShell@2
   displayName: 'Generate name app service'
   inputs:
-    targetType: filePath
+    targetType: 'filePath'
     filePath: '$(System.DefaultWorkingDirectory)/_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "West US" -ResourceType "App Service" -Environment "DEV"'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -53,7 +53,7 @@ steps:
 - task: PowerShell@2
   displayName: 'Generate name app insights'
   inputs:
-    targetType: filePath
+    targetType: 'filePath'
     filePath: '$(System.DefaultWorkingDirectory)//_Swagger-CI-JeraldinneMolleda/AzureTestProject/scripts/generateName.ps1'
     arguments: '-Location "East US" -ResourceType "Application Insights" -Environment "DEV"'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
