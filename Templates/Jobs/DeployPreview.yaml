@@ -3,3 +3,8 @@ jobs:
   displayName: DeployWebApp
   steps:
   - template: ../../Templates/Tasks/Resources/downloadArtifact.yaml
+  - checkout: DevOpsScripts
+  - pwsh: |
+      Get-ChildItem $(System.DefaultWorkingDirectory) -Recurse
+    name: DebugCheckout
+    displayName: Debug script checkout
