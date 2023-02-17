@@ -8,7 +8,7 @@ In this last exercise we will build a Swagger API application, and make it avail
 ## 1) Introduction
 If you ever worked in backend programming or API creation, you probably know that Swagger is a tool where you can describe each endpoint of your API and test calling such endpoints to see the output.
 
-![](image/Items.png)
+![](images/Items.png)
 
 As part of the assessment, you will be responsible for building a CI pipeline which compiles an ASP.NET  Swagger application and publish it as a ZIP. Then you'll create a CD pipeline that will take care of the infrastructure deployment (App Service + App Service Plan) and finally will deploy the application in the server.
 
@@ -22,7 +22,7 @@ Application is written in .NET (C#)
 ### A) Swagger Repository
 The repository is called "SwaggerAPI" and you can find in the Azure Repos of this project.
 
-![](image/Items2.png)
+![](images/Items2.png)
 
 Create a branch of your own using the following naming standard: application/<Candidate-Name>
 For example: application/PabloCorrea
@@ -38,7 +38,7 @@ There's a change you will have to do in the code, in order to make the Swagger U
 
 Working locally in your machine, open Program.cs from the path: RoundTheCode.AzureTestProject/Program.cs
 
-![](image/Items3.png)
+![](images/Items3.png)
 
 Remove the IF conditional seen above, leaving only the code that is the inside the IF conditional. The condition will not be considered hence the UI will be run correctly.
 
@@ -55,7 +55,7 @@ Use Dotnet: Because we are compiling a .NET application we have to use DotNet to
 
 Test: The application also has some unit tests in place that we have to automate during the CI. Make sure to include this task during your CI.
 
-![](image/Items4.png)
+![](images/Items4.png)
 
 Publish: This task will build and publish the compiled code into a ZIP ready to be deployed.
 
@@ -126,7 +126,6 @@ Below tables are the information your script need to have.
 
 Your script should throw a 'Not supported' error if we pass any parameter that does not match with below table information.
 
-
 # My Solution
 
 ## 2) Code Repository
@@ -134,13 +133,13 @@ Clone the repository to your local machine. ✅
 Create a branch of your own using the following naming standard: application/JeraldinneMolleda.   ✅    
 Remove the IF conditional in Program.cs file from the path given. ✅ 
 Reference Commit 2a6e174:
-![](image/git.png)
+![](images/git.png)
 
 ## CI Pipeline: App Compiling:
 Configure Continuous Integration pipeline (CI) using YAML. ✅
 Your CI pipeline should cover the following tasks: Use NuGet, NuGet Restore, Use Dotnet, Test, Publish, Publish Artifact ✅
 
-![](image/ci-build.png)
+![](images/ci-build.png)
 
 ## CD Pipeline: Azure Deployments
 Create a Continuous Delivery Pipeline that will handle the resource deployment into Azure. ✅
@@ -148,6 +147,6 @@ Create one script that generates the name of the Azure resource. ✅
 Create one script to deploy the resource into Azure.  ✅
 Both scripts should be uploaded to your repository/branch within a folder called 'scripts'.  ✅
 
-![](image/cd-release.png)
-![](image/deploy-resources.png)
-![](image/swaggerapi.png)
+![](images/cd-release.png)
+![](images/deploy-resources.png)
+![](images/swaggerapi.png)
